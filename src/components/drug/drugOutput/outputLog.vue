@@ -241,6 +241,7 @@ export default {
     },
     onSubmit () {
       this.getTableData()
+      console.log(12)
     }
   },
   mounted () {
