@@ -100,18 +100,6 @@
           </el-form-item>
           <el-form-item label="批次:" :prop="'items.' + index + '.pNum'" :rules="{required: true, message: '批次不能为空', trigger: 'change'}">
             <el-input type="text" v-model="item.pNum" placeholder="请输入数量"></el-input>
-            <!-- <el-autocomplete
-            popper-class="my-autocomplete"
-            :fetch-suggestions="item.queryStr"
-            v-model='item.pNum'
-            placeholder="请选择批次"
-              @select="item.select">
-              <template slot-scope="{ item }">
-                <div class="name">批号:{{item.pNum}}</div>
-                <div class="addr">库存:{{item.lastNum}}</div>
-                <div class="addr">过期时间:{{item.endDate}}</div>
-              </template>
-            </el-autocomplete> -->
           </el-form-item>
           <el-form-item label="数量:" :prop="'items.' + index + '.num'" :rules="{required: true, message: '采购单价不能为空', trigger: 'blur'}">
             <el-input type="text" v-model="item.num" placeholder="请输入数量"></el-input>
