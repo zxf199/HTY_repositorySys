@@ -46,6 +46,7 @@ export default {
           this.$axios.post('/api/user/login', this.loginForm).then(res => {
             if (res.data.code === 200) {
               localStorage.userInfo = JSON.stringify(res.data.data)
+              sessionStorage.currentIndex = '1'
               this.$router.push({name: 'mainPage'})
               this.$message({
                 message: '登录成功',

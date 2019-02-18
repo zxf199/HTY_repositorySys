@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-menu :collapse="isCollapse" background-color="#1f2438" text-color="#fff" :unique-opened="isUnique"  default-active="1">
+    <el-menu :collapse="isCollapse" background-color="#1f2438" text-color="#fff" @select="currentIndex" :unique-opened="isUnique"  :default-active="activeOpen">
       <h1 class="erp-name" v-if="!isCollapse">汇通云仓库管理系统</h1>
       <div v-else class="logo"><img src="../assets/logo.jpg" alt=""></div>
       <el-menu-item index="1" @click="goToLink('mainPage', ['首页'])">
@@ -34,7 +34,7 @@
           <template slot="title">出库</template>
           <el-menu-item index="3-4-1" @click="goToLink('apply', ['药品', '出库', '申请'])">申请</el-menu-item>
           <el-menu-item index="3-4-2" @click="goToLink('audit', ['药品', '出库', '审核'])">审核</el-menu-item>
-          <el-menu-item index="3-4-3" @click="goToLink('drugOutput', ['药品', '出库', '出库'])">出库</el-menu-item>
+          <el-menu-item index="3-4-3" @click="goToLink('outputLog', ['药品', '出库', '申请记录'])">申请记录</el-menu-item>
         </el-submenu>
       </el-submenu>
       <el-submenu index="4">
@@ -87,6 +87,7 @@ export default {
     return {
       isCollapse: false,
       isUnique: true,
+      activeOpen: '1',
       isDefinde: 'iconfont isCollapse big-font',
       currentPage: ['首页'],
       uName: ''
@@ -103,17 +104,20 @@ export default {
       this.$router.push({name: url})
       this.currentPage = [...title]
     },
-    getCustomerAll () {
-      this.$axios.post('/api/medi/getCustomerAll').then(res => {
-        if (res.data.data.length) {
-          this.$store.dispatch('setCusInfo', res.data.data)
-        }
-      })
+    // getCustomerAll () {
+    //   this.$axios.post('/api/medi/getCustomerAll').then(res => {
+    //     if (res.data.data.length) {
+    //       this.$store.dispatch('setCusInfo', res.data.data)
+    //     }
+    //   })
+    // },
+    currentIndex (index) {
+      sessionStorage.currentIndex = index
     }
   },
   mounted () {
-    this.$router.push({name: 'mainPage'})
-    this.getCustomerAll()
+    if (sessionStorage.currentIndex) this.activeOpen = sessionStorage.currentIndex
+    // this.getCustomerAll()
     this.uName = JSON.parse(localStorage.userInfo).uAlias
   }
 }

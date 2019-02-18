@@ -175,8 +175,10 @@
   </div>
 </template>
 <script>
+import allCustomerData from '../../common/getCustomerAll.js'
 export default {
   name: 'productInfo',
+  mixins: [allCustomerData],
   data () {
     return {
       searchForm: {
@@ -468,7 +470,7 @@ export default {
     }
   },
   mounted () {
-    this.options = this.$store.getters.getCustomerInfo
+    this.getCustomerAll(this.options)
     this.reqTableData()
   }
 }

@@ -147,8 +147,10 @@
   </div>
 </template>
 <script>
+import allCustomerData from '../../../common/getCustomerAll.js'
 export default {
   name: 'inputApply',
+  mixins: [allCustomerData],
   data () {
     return {
       searchForm: {
@@ -266,7 +268,6 @@ export default {
                 message: '保存成功'
               })
               this.inputDialog = false
-              this.$refs[formName].resetFields()
               if (this.$refs['poPhotos']) this.$refs['poPhotos'].clearFiles()
               this.$refs['productTable'].clearSelection()
               this.hasSelectData = []
@@ -342,6 +343,7 @@ export default {
       }
     },
     showApply () {
+      if (this.$refs['drugForm']) this.$refs['drugForm'].clearValidate()
       this.drugForm.cId = this.searchForm.cId
       this.drugForm.cName = this.$refs.cName.selectedLabel
       this.drugForm.uId = JSON.parse(localStorage.userInfo).uId
@@ -380,7 +382,7 @@ export default {
     }
   },
   mounted () {
-    this.options = this.$store.getters.getCustomerInfo
+    this.getCustomerAll()
   }
 }
 </script>

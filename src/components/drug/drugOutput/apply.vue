@@ -17,13 +17,13 @@
       </el-form>
       <div class="item">
         <el-badge :value="applyData" :max="10" :type="applyType">
-          <el-button size="small" type="primary" :disabled="isNoData" @click="applyDialog = true">申请单</el-button>
+          <el-button size="small" type="primary" :disabled="isNoData" @click="viewApplyRecode">申请单</el-button>
         </el-badge>
       </div>
     </div>
     <el-table
     :data="tableData"
-    ref="prodcutTable"
+    ref="productTable"
     @select="handleSelChange"
     border
     style="width: 100%">
@@ -203,6 +203,10 @@ export default {
       this.searchForm.currentPage = val
       this.hasSelectedRow()
     },
+    viewApplyRecode () {
+      if (this.$refs['applyForm']) this.$refs['applyForm'].clearValidate()
+      this.applyDialog = true
+    },
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -219,6 +223,8 @@ export default {
                 type: 'success',
                 message: res.data.data
               })
+              this.applyList = []
+              this.$refs['productTable'].clearSelection()
               this.applyDialog = false
             }
           })
@@ -267,7 +273,7 @@ export default {
             res.forEach(item => {
               this.tableData.forEach((row, index) => {
                 if (row.id === item.id) {
-                  this.$refs['prodcutTable'].toggleRowSelection(this.tableData[index], true)
+                  this.$refs['productTable'].toggleRowSelection(this.tableData[index], true)
                 }
               })
             })
