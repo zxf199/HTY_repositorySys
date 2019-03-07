@@ -47,7 +47,7 @@
       </el-form>
     </el-dialog>
     <div>
-      <el-button type="primary" icon="el-icon-circle-plus-outline" @click="inputDialog=true">入库</el-button>
+      <el-button type="primary" icon="el-icon-circle-plus-outline">入库</el-button>
     </div>
     <div class="parts-search">
       <h4>入库记录</h4>
@@ -56,38 +56,9 @@
     :data="tableData"
     border
     style="width: 100%">
-      <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" inline class="demo-table-expand">
-            <el-form-item label="零件名称">
-              <span>{{ props.row.pName }}</span>
-            </el-form-item>
-            <el-form-item label="型号">
-              <span>{{ props.row.pType }}</span>
-            </el-form-item>
-            <el-form-item label="单位">
-              <span>{{ props.row.pUnit }}</span>
-            </el-form-item>
-            <el-form-item label="数量">
-              <span>{{ props.row.pNum }}</span>
-            </el-form-item>
-            <el-form-item label="采购单价">
-              <span>{{ props.row.pPrice }}</span>
-            </el-form-item>
-            <el-form-item label="采购总价">
-              <span>{{ props.row.pTotal }}</span>
-            </el-form-item>
-            <el-form-item label="生产日期">
-              <span>{{ props.row.date }}</span>
-            </el-form-item>
-            <el-form-item label="供应商信息">
-              <span>{{ props.row.supInfo }}</span>
-            </el-form-item>
-            <el-form-item label="备注">
-              <span>{{ props.row.remark }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
+      <el-table-column
+      type="selection"
+      width="55">
       </el-table-column>
       <el-table-column
         prop="pName"
@@ -121,7 +92,7 @@
 </template>
 <script>
 export default {
-  name: 'partsInput',
+  name: 'partsInputApply',
   data () {
     return {
       partsForm: {

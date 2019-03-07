@@ -4,11 +4,11 @@
       <h4>药品列表</h4>
       <el-form :inline="true" :model="searchForm" class="searchForm">
         <el-form-item label="名称">
-          <el-input type="text" v-model="searchForm.dName" placeholder="请输入名称" size="small"></el-input>
+          <el-input type="text" v-model="searchForm.pName" placeholder="请输入名称" size="small"></el-input>
         </el-form-item>
         <el-form-item label="有效期">
           <el-form-item>
-            <el-date-picker type="date" size="small" placeholder="选择日期" v-model="searchForm.dValidate" style="width:100%;"></el-date-picker>
+            <el-date-picker type="date" size="small" placeholder="选择日期" v-model="searchForm.endDate" style="width:100%;"></el-date-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item>
@@ -133,7 +133,9 @@ export default {
     return {
       searchForm: {
         currentPage: 1,
-        pageSize: 10
+        pageSize: 10,
+        pName: '',
+        endDate: ''
       },
       total: 0,
       isNoData: true,
@@ -234,14 +236,7 @@ export default {
       })
     },
     onSubmit () {
-      console.log(123)
-    },
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url
-      this.dialogVisible = true
+      this.hasSelectedRow()
     },
     filterRow (row) {
       this.applyList.forEach((item, index) => {

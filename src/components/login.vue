@@ -79,6 +79,7 @@ h1, h2 {
   font-weight: normal;
 }
 .el-row {
+  margin-top: 10%;
   text-align:center;
 }
 .title {

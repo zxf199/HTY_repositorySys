@@ -87,9 +87,14 @@ export default new Router({
           component: resolve => require(['@/components/drug/drugOutput/drugOutput'], resolve)
         },
         {
-          path: '/parts/partsInput/partsInput',
-          name: 'partsInput',
-          component: resolve => require(['@/components/parts/partsInput/partsInput'], resolve)
+          path: '/parts/partsInput/partsInputApply',
+          name: 'partsInputApply',
+          component: resolve => require(['@/components/parts/partsInput/partsInputApply'], resolve)
+        },
+        {
+          path: '/parts/partsInput/partsInputAudit',
+          name: 'partsInputAudit',
+          component: resolve => require(['@/components/parts/partsInput/partsInputAudit'], resolve)
         },
         {
           path: '/parts/partsOutput/partsOutput',

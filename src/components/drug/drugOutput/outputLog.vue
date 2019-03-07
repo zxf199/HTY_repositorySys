@@ -14,6 +14,9 @@
           </el-select>
         </el-form-item>
         <el-form-item>
+            <el-date-picker size="small" type="date" placeholder="申请时间" v-model="searchForm.startDate" style="width:100%;" value-format="yyyy-MM-dd"></el-date-picker>
+          </el-form-item>
+        <el-form-item>
           <el-button type="primary" @click="onSubmit" size="small">查询</el-button>
         </el-form-item>
       </el-form>
@@ -109,7 +112,7 @@
           </el-form-item>
           <el-form-item label="过期时间:">
             <el-form-item required>
-              <el-date-picker type="date" placeholder="过期时间" v-model="item.endDate" style="width:100%;" readonly value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+              <el-date-picker type="date" placeholder="过期时间" v-model="item.endDate" style="width:100%;" readonly value-format="yyyy-MM-dd"></el-date-picker>
             </el-form-item>
           </el-form-item>
         </div>
@@ -122,7 +125,7 @@
         </el-form-item>
         <el-form-item label="出库时间:" required>
           <el-form-item prop="outDate" :rules="[{ required: true, message: '请选择出库时间', trigger: 'change'}]">
-            <el-date-picker type="date" placeholder="出库时间" v-model="detailForm.outDate" style="width:100%;" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+            <el-date-picker type="date" placeholder="出库时间" v-model="detailForm.outDate" style="width:100%;" value-format="yyyy-MM-dd"></el-date-picker>
           </el-form-item>
         </el-form-item>
         <el-form-item label="收货单位:" prop="consignee" :rules="[{ required: true, message: '请输入收货单位', trigger: 'blur' }]">
@@ -135,8 +138,8 @@
           <el-input type="textarea" v-model="detailForm.soExt" placeholder="请输入备注"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="detailVisible = false">确 定</el-button>
+      <span slot="footer" class="dialog-footer" v-if="auditStatus">
+        <el-button type="primary" @click="subEidtLog('detailForm')">确 定</el-button>
         <el-button @click="detailVisible = false">取 消</el-button>
       </span>
     </el-dialog>
@@ -152,7 +155,9 @@ export default {
       searchForm: {
         currentPage: 1,
         pageSize: 10,
-        soStatus: ''
+        soStatus: '',
+        uId: '',
+        startDate: ''
       },
       status: [{
         key: 1,
@@ -176,6 +181,8 @@ export default {
         address: '', // 收货地址
         num: '', // 单号
         uId: '',
+        passUId: '',
+        id: '',
         consigner: '', // 收货人
         outDate: '', // 出库时间,
         soExt: '',
@@ -187,7 +194,8 @@ export default {
           pNum: '',
           endDate: ''
         }]
-      }
+      },
+      auditStatus: true
     }
   },
   methods: {
@@ -202,10 +210,10 @@ export default {
             } else if (item.soStatus === 2) {
               item.soName = '通过'
               item.infoBg = 'success'
-            } else if (item.soSattus === 3) {
+            } else if (item.soStatus === 3) {
               item.soName = '作废'
               item.infoBg = 'danger'
-            } else if (item.soSattus === 4) {
+            } else if (item.soStatus === 4) {
               item.soName = '驳回'
               item.infoBg = 'warning'
             }
@@ -226,13 +234,14 @@ export default {
       this.getTableData()
     },
     viewDetail (rowData) {
+      if (rowData.soStatus === 2 && rowData.soStatus === 3) this.auditStatus = false
+      else this.auditStatus = true
+      if (this.$refs['detailForm']) this.$refs['detailForm'].clearValidate()
       this.getItems(rowData)
     },
     getItems (rowData) {
       this.$axios.post('/api/medi/getStockOutItems', {id: rowData.id}).then(res => {
-        for (let key in this.detailForm) {
-          this.detailForm[key] = rowData[key]
-        }
+        this.detailForm = Object.assign({}, rowData)
         if (res.data.data && res.data.data.length) {
           this.detailForm.items = res.data.data
         }
@@ -241,6 +250,22 @@ export default {
     },
     onSubmit () {
       this.getTableData()
+    },
+    subEidtLog (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$axios.post('/api/medi/updateStockOut', this.detailForm).then(res => {
+            if (res.data.code === 200) {
+              this.$message({
+                type: 'success',
+                message: res.data.data
+              })
+              this.getTableData()
+              this.detailVisible = false
+            }
+          })
+        }
+      })
     }
   },
   mounted () {

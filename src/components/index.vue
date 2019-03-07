@@ -44,15 +44,15 @@
         </template>
         <el-submenu index="4-1">
           <template slot="title">入库</template>
-          <el-menu-item index="4-2-1" @click="goToLink('partsApply', ['零件', '出库', '申请'])">申请</el-menu-item>
-          <el-menu-item index="4-2-2" @click="goToLink('partsInput', ['零件', '入库', '入库'])">入库</el-menu-item>
+          <el-menu-item index="4-2-1" @click="goToLink('partsInputApply', ['零件', '出库', '申请'])">申请</el-menu-item>
+          <el-menu-item index="4-2-2" @click="goToLink('partsInputAudit', ['零件', '入库', '审核'])">审核</el-menu-item>
         </el-submenu>
         <el-submenu index="4-2">
           <template slot="title">出库</template>
-          <el-menu-item index="4-2-1" @click="goToLink('partsApply', ['零件', '出库', '申请'])">申请</el-menu-item>
-          <el-menu-item index="4-2-2" @click="goToLink('partsAudit', ['零件', '出库', '审核'])">审核</el-menu-item>
-          <el-menu-item index="4-2-3" @click="goToLink('partsOutput', ['零件', '出库', '出库'])">出库</el-menu-item>
-          <el-menu-item index="4-2-4" @click="goToLink('partsAuditLog', ['零件', '出库', '审核记录'])">审核记录</el-menu-item>
+          <el-menu-item index="4-2-3" @click="goToLink('partsApply', ['零件', '出库', '申请'])">申请</el-menu-item>
+          <el-menu-item index="4-2-4" @click="goToLink('partsAudit', ['零件', '出库', '审核'])">审核</el-menu-item>
+          <el-menu-item index="4-2-5" @click="goToLink('partsOutput', ['零件', '出库', '出库'])">出库</el-menu-item>
+          <el-menu-item index="4-2-6" @click="goToLink('partsAuditLog', ['零件', '出库', '审核记录'])">审核记录</el-menu-item>
         </el-submenu>
         <el-menu-item index="4-3" @click="goToLink('partList', ['零件', '机型'])">机型</el-menu-item>
         <el-menu-item index="4-4" @click="goToLink('staticData', ['零件', '统计'])">统计</el-menu-item>
